@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cata Stoma Timisoara",
+  title: "Cata Stoma Timișoara",
   description:
-    "Cabinet stomatologic in Timisoara pentru consultatii, igienizare si tratamente dentare.",
+    "Cabinet stomatologic în Timișoara pentru consultații, igienizare și tratamente dentare.",
 };
 
 export default function RootLayout({

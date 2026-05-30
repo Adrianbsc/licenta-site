@@ -63,6 +63,7 @@ export default function DoctorDashboard() {
   const [form, setForm] = useState(emptyForm);
   const [message, setMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [cancellingId, setCancellingId] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -71,15 +72,26 @@ export default function DoctorDashboard() {
       cache: "no-store",
       signal: controller.signal,
     })
-      .then((response) => response.json() as Promise<DashboardData>)
+      .then((response) => {
+        if (response.status === 401) {
+          window.location.assign("/login-doctor");
+          return null;
+        }
+
+        if (!response.ok) {
+          throw new Error("Dashboard request failed.");
+        }
+
+        return response.json() as Promise<DashboardData>;
+      })
       .then((nextData) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && nextData) {
           setData(nextData);
         }
       })
       .catch(() => {
         if (!controller.signal.aborted) {
-          setMessage("Nu pot incarca agenda din baza de date.");
+          setMessage("Nu pot încărca agenda din baza de date.");
         }
       });
 
@@ -87,10 +99,13 @@ export default function DoctorDashboard() {
   }, []);
 
   const stats = useMemo(() => {
-    const appointments = data?.appointments.length ?? 0;
+    const appointments =
+      data?.appointments.filter(
+        (item) => !["Anulata", "Anulată"].includes(item.status),
+      ).length ?? 0;
     const requests =
       data?.appointmentRequests.filter(
-        (item) => item.status !== "Confirmare trimisa",
+        (item) => !["Confirmare trimisa", "Confirmare trimisă"].includes(item.status),
       ).length ?? 0;
     const patients = data?.patients.length ?? 0;
 
@@ -101,6 +116,14 @@ export default function DoctorDashboard() {
       ["Ocupare", appointments ? "78%" : "0%", "din ziua curenta"],
     ];
   }, [data]);
+
+  const nextActiveAppointmentId = useMemo(
+    () =>
+      data?.appointments.find(
+        (item) => !["Anulata", "Anulată"].includes(item.status),
+      )?.id,
+    [data],
+  );
 
   async function addAppointment(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -113,6 +136,12 @@ export default function DoctorDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
+      if (response.status === 401) {
+        window.location.assign("/login-doctor");
+        return;
+      }
+
       const payload = (await response.json()) as {
         appointment?: Appointment;
         error?: string;
@@ -134,25 +163,83 @@ export default function DoctorDashboard() {
           : current,
       );
       setForm(emptyForm);
-      setMessage("Programarea a fost salvata in SQLite si botul a primit alerta.");
+      setMessage("Programarea a fost salvată și botul a primit alerta.");
     } catch {
-      setMessage("Nu pot salva acum. Verifica daca serverul ruleaza.");
+      setMessage("Nu pot salva acum. Verifică dacă serverul rulează.");
     } finally {
       setIsSaving(false);
     }
+  }
+
+  async function cancelExistingAppointment(id: string) {
+    setCancellingId(id);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/appointments", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, action: "cancel" }),
+      });
+
+      if (response.status === 401) {
+        window.location.assign("/login-doctor");
+        return;
+      }
+
+      const payload = (await response.json()) as {
+        appointment?: Appointment;
+        error?: string;
+      };
+
+      if (!response.ok || !payload.appointment) {
+        setMessage(payload.error ?? "Nu am putut anula programarea.");
+        return;
+      }
+
+      setData((current) =>
+        current
+          ? {
+              ...current,
+              appointments: current.appointments.map((appointment) =>
+                appointment.id === id ? payload.appointment! : appointment,
+              ),
+            }
+          : current,
+      );
+      setMessage("Programarea a fost anulată.");
+    } catch {
+      setMessage("Nu pot anula acum. Verifică dacă serverul rulează.");
+    } finally {
+      setCancellingId("");
+    }
+  }
+
+  async function logout() {
+    await fetch("/api/auth/doctor-logout", { method: "POST" });
+    window.location.assign("/login-doctor");
   }
 
   return (
     <>
       <header className="border-b border-[#d8eee9] bg-[#f7fbfa] text-[#17322e]">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-6 sm:px-8 lg:px-10">
-          <div>
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-[#248176]">
-              Dashboard doctor
-            </p>
-            <h1 className="mt-2 text-3xl font-black tracking-normal sm:text-5xl">
-              Agenda Cata Stoma
-            </h1>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.2em] text-[#248176]">
+                Dashboard doctor
+              </p>
+              <h1 className="mt-2 text-3xl font-black tracking-normal sm:text-5xl">
+                Agenda Cata Stoma
+              </h1>
+            </div>
+            <button
+              className="rounded-full border border-[#b7ded7] bg-white px-5 py-3 text-sm font-black text-[#248176] transition hover:border-[#62b6a7]"
+              onClick={logout}
+              type="button"
+            >
+              Logout
+            </button>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -189,9 +276,9 @@ export default function DoctorDashboard() {
             </div>
 
             <div className="mt-5 grid gap-3">
-              {(data?.appointments ?? []).map((appointment, index) => (
+              {(data?.appointments ?? []).map((appointment) => (
                 <article
-                  className="grid gap-4 rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4 md:grid-cols-[96px_1fr_130px]"
+                  className="grid gap-4 rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4 md:grid-cols-[96px_1fr_130px_auto]"
                   key={appointment.id}
                 >
                   <div className="rounded-lg bg-white p-3 text-center ring-1 ring-[#d8eee9]">
@@ -205,7 +292,7 @@ export default function DoctorDashboard() {
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="font-black">{appointment.patient}</h3>
-                      {index === 0 ? (
+                      {appointment.id === nextActiveAppointmentId ? (
                         <span className="rounded-full bg-[#fff3cf] px-2 py-1 text-xs font-black text-[#8a6511]">
                           urmatorul
                         </span>
@@ -221,6 +308,17 @@ export default function DoctorDashboard() {
                   <span className="h-fit rounded-full bg-white px-3 py-2 text-center text-xs font-black text-[#248176] ring-1 ring-[#cde7e1]">
                     {appointment.status}
                   </span>
+                  <button
+                    className="h-fit rounded-full border border-[#f1c7c7] bg-white px-4 py-2 text-xs font-black text-[#a33b3b] transition hover:bg-[#fff1f1] disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={
+                      ["Anulata", "Anulată"].includes(appointment.status) ||
+                      cancellingId === appointment.id
+                    }
+                    onClick={() => cancelExistingAppointment(appointment.id)}
+                    type="button"
+                  >
+                    {cancellingId === appointment.id ? "Se anuleaza" : "Anuleaza"}
+                  </button>
                 </article>
               ))}
             </div>

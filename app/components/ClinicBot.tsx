@@ -27,8 +27,8 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
     {
       role: "bot",
       text: isDoctor
-        ? "Buna, doctore. Iti urmaresc programarile, cererile noi si pacientii care au observatii importante."
-        : `Buna, sunt Asistentul Virtual Cata Stoma. Te pot ajuta cu program, servicii si cereri de programare in ${clinic.city}.`,
+        ? "Bună, doctore. Îți urmăresc programările, cererile noi și pacienții care au observații importante."
+        : `Bună, sunt Asistentul Virtual Cata Stoma. Te pot ajuta cu program, servicii și cereri de programare în ${clinic.city}.`,
     },
   ]);
 
@@ -59,7 +59,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
     setMessages((current) => [
       ...current,
       { role: "user", text: cleanText },
-      { role: "bot", text: "Verific in baza cabinetului..." },
+      { role: "bot", text: "Verific în baza cabinetului..." },
     ]);
     setInput("");
     setIsLoading(true);
@@ -77,7 +77,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
           role: "bot",
           text:
             data.answer ??
-            "Nu am gasit un raspuns clar. Pot salva intrebarea pentru receptie.",
+            "Nu am găsit un răspuns clar. Pot salva întrebarea pentru recepție.",
         },
       ]);
     } catch {
@@ -85,7 +85,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
         ...current.slice(0, -1),
         {
           role: "bot",
-          text: "Nu pot accesa baza de date acum. Incearca din nou in cateva secunde.",
+          text: "Nu pot accesa baza de date acum. Încearcă din nou în câteva secunde.",
         },
       ]);
     } finally {
@@ -197,7 +197,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
           placeholder={
             isDoctor
               ? "Scrie: cine urmeaza, cereri urgente..."
-              : "Scrie intrebarea ta..."
+              : "Scrie întrebarea ta..."
           }
           value={input}
         />
@@ -211,7 +211,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
       </form>
 
       <p className="mt-3 text-xs leading-5 text-[#647a75]">
-        Demo: {appointments.length} programari si {appointmentRequests.length}{" "}
+        Demo: {appointments.length} programări și {appointmentRequests.length}{" "}
         cereri sunt citite din datele aplicatiei.
       </p>
     </section>

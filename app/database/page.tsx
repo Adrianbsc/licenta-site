@@ -7,12 +7,13 @@ import {
 } from "../lib/clinic-data";
 
 const dbPlan = [
-  "Formularul public creeaza o cerere in appointment_requests.",
-  "Doctorul confirma cererea si se creeaza o inregistrare in appointments.",
-  "Pacientul are profil in patients, cu istoric si observatii.",
-  "Dupa consultatie se adauga nota in treatment_notes.",
-  "Botul citeste calendarul si creeaza alerte in bot_notifications.",
-  "Conversatiile pacientilor raman in chat_messages.",
+  "Formularul public creează o cerere în appointment_requests.",
+  "Doctorul confirmă cererea și se creează o înregistrare în appointments.",
+  "Pacientul are profil în patients, cu istoric și observații.",
+  "După consultație se adaugă nota în treatment_notes.",
+  "Recenziile pacienților sunt publicate în reviews.",
+  "Botul citește calendarul și creează alerte în bot_notifications.",
+  "Conversațiile pacienților rămân în chat_messages.",
 ];
 
 export default function DatabasePage() {
@@ -45,10 +46,10 @@ export default function DatabasePage() {
             </nav>
           </div>
           <p className="max-w-3xl text-sm leading-6 text-white/68">
-            Acum datele ruleaza intr-o baza SQLite locala, simpla de inteles:
-            schema este in db/schema.sql, iar fisierul bazei este
-            data/cata-stoma.sqlite. Dupa demo, aceeasi structura se poate muta
-            usor in PostgreSQL + Prisma sau Supabase.
+            Datele folosesc MongoDB când există MONGODB_URI în environment. Dacă
+            lipsește parola sau URL-ul complet al clusterului, aplicația rămâne
+            funcțională pe SQLite local: schema este în db/schema.sql, iar
+            fisierul bazei este data/cata-stoma.sqlite.
           </p>
         </div>
       </header>
@@ -93,7 +94,7 @@ export default function DatabasePage() {
             <h2 className="mt-2 text-2xl font-black">Cum circula datele</h2>
             <p className="mt-2 text-sm leading-6 text-[#66756f]">
               Botul AI citeste aceleasi tabele ca panoul doctorului. Cand adaugi
-              manual o programare, API-ul salveaza in SQL si creeaza automat o
+              manual o programare, API-ul salvează în SQL și creează automat o
               alerta pentru bot.
             </p>
             <div className="mt-5 grid gap-3">
