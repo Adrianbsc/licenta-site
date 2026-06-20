@@ -14,6 +14,9 @@ const initialForm = {
   message: "",
 };
 
+const fieldClass =
+  "rounded-lg border border-[#cde7e1] bg-white/92 px-4 py-3 font-medium outline-none focus:border-[#2d8d7f]";
+
 export default function AppointmentRequestForm({
   services,
 }: AppointmentRequestFormProps) {
@@ -53,14 +56,27 @@ export default function AppointmentRequestForm({
 
   return (
     <form
-      className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_14px_40px_rgba(42,112,103,.08)] sm:p-6"
+      className="soft-card interactive-card rounded-lg p-5 sm:p-6"
       onSubmit={submitRequest}
     >
+      <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
+            Cerere rapidă
+          </p>
+          <h3 className="mt-2 text-2xl font-black text-[#17322e]">
+            Spune-ne pe scurt ce ai nevoie.
+          </h3>
+        </div>
+        <span className="rounded-full bg-[#e8f7f3] px-3 py-2 text-xs font-black text-[#176f65] ring-1 ring-[#cde7e1]">
+          răspuns în 24h
+        </span>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2 text-sm font-black">
           Nume
           <input
-            className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+            className={fieldClass}
             onChange={(event) =>
               setForm((current) => ({ ...current, patient: event.target.value }))
             }
@@ -71,7 +87,7 @@ export default function AppointmentRequestForm({
         <label className="grid gap-2 text-sm font-black">
           Telefon
           <input
-            className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+            className={fieldClass}
             onChange={(event) =>
               setForm((current) => ({ ...current, phone: event.target.value }))
             }
@@ -82,7 +98,7 @@ export default function AppointmentRequestForm({
         <label className="grid gap-2 text-sm font-black">
           Serviciu
           <select
-            className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+            className={fieldClass}
             onChange={(event) =>
               setForm((current) => ({ ...current, service: event.target.value }))
             }
@@ -96,7 +112,7 @@ export default function AppointmentRequestForm({
         <label className="grid gap-2 text-sm font-black">
           Data preferată
           <input
-            className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+            className={fieldClass}
             onChange={(event) =>
               setForm((current) => ({
                 ...current,
@@ -111,7 +127,7 @@ export default function AppointmentRequestForm({
       <label className="mt-4 grid gap-2 text-sm font-black">
         Mesaj
         <textarea
-          className="min-h-28 rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+          className={`${fieldClass} min-h-28`}
           onChange={(event) =>
             setForm((current) => ({ ...current, message: event.target.value }))
           }
@@ -120,7 +136,7 @@ export default function AppointmentRequestForm({
         />
       </label>
       <button
-        className="mt-5 w-full rounded-full bg-[#62b6a7] px-5 py-4 text-sm font-black text-white transition hover:bg-[#4aa495] disabled:opacity-50"
+        className="button-sheen mt-5 w-full rounded-full bg-[#2d8d7f] px-5 py-4 text-sm font-black text-white shadow-[0_16px_38px_rgba(45,141,127,.22)] transition hover:-translate-y-0.5 hover:bg-[#176f65] disabled:opacity-50"
         disabled={isSaving}
         type="submit"
       >

@@ -12,18 +12,19 @@ const dbPlan = [
   "Pacientul are profil în patients, cu istoric și observații.",
   "După consultație se adaugă nota în treatment_notes.",
   "Recenziile pacienților sunt publicate în reviews.",
-  "Botul citește calendarul și creează alerte în bot_notifications.",
-  "Conversațiile pacienților rămân în chat_messages.",
+  "Asistentul de cabinet citește calendarul și creează alerte în bot_notifications.",
+  "Conversațiile rămân în chat_messages pentru continuitate.",
 ];
 
 export default function DatabasePage() {
   return (
-    <main className="min-h-screen bg-[#f6f2e9] text-[#151a18]">
-      <header className="border-b border-[#e2d8c8] bg-[#111111] text-white">
+    <main className="min-h-screen bg-[#f3faf7] text-[#151a18]">
+      <header className="relative overflow-hidden border-b border-[#d8eee9] bg-[#17322e] text-white">
+        <div className="fine-grid absolute inset-0 opacity-20" />
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 lg:px-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.2em] text-[#d6b35f]">
+              <p className="text-sm font-black uppercase tracking-[0.2em] text-[#a8e1d7]">
                 Database blueprint
               </p>
               <h1 className="mt-2 text-3xl font-black tracking-normal sm:text-5xl">
@@ -38,7 +39,7 @@ export default function DatabasePage() {
                 Site public
               </Link>
               <Link
-                className="rounded-full bg-white px-4 py-2 text-[#111111]"
+                className="rounded-full bg-white px-4 py-2 text-[#17322e]"
                 href="/doctor"
               >
                 Panou doctor
@@ -58,7 +59,7 @@ export default function DatabasePage() {
         <div className="grid gap-4">
           {databaseTables.map((table) => (
             <article
-              className="rounded-[28px] border border-[#e2d8c8] bg-white p-5 shadow-sm"
+              className="soft-card interactive-card rounded-lg p-5"
               key={table.name}
             >
               <div className="flex items-start justify-between gap-4">
@@ -68,8 +69,8 @@ export default function DatabasePage() {
                     {table.purpose}
                   </p>
                 </div>
-                <span className="rounded-full bg-[#f4e4bb] px-3 py-1 text-xs font-black text-[#614d1e]">
-                  {table.rows} randuri
+                <span className="rounded-full bg-[#eef8f5] px-3 py-1 text-xs font-black text-[#176f65]">
+                  {table.rows} rânduri
                 </span>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -87,23 +88,23 @@ export default function DatabasePage() {
         </div>
 
         <aside className="grid h-fit gap-6 lg:sticky lg:top-6">
-          <section className="rounded-[32px] border border-[#e2d8c8] bg-white p-5 shadow-sm">
+          <section className="soft-card rounded-lg p-5">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#2d7a74]">
               Flux recomandat
             </p>
-            <h2 className="mt-2 text-2xl font-black">Cum circula datele</h2>
+            <h2 className="mt-2 text-2xl font-black">Cum circulă datele</h2>
             <p className="mt-2 text-sm leading-6 text-[#66756f]">
-              Botul AI citeste aceleasi tabele ca panoul doctorului. Cand adaugi
-              manual o programare, API-ul salvează în SQL și creează automat o
-              alerta pentru bot.
+              Asistentul de cabinet citește aceleași tabele ca panoul doctorului.
+              Când adaugi manual o programare, API-ul salvează în baza activă și
+              creează automat o alertă internă.
             </p>
             <div className="mt-5 grid gap-3">
               {dbPlan.map((step, index) => (
                 <div
-                  className="grid grid-cols-[38px_1fr] items-start gap-3 rounded-[22px] bg-[#f6f2e9] p-3"
+                  className="grid grid-cols-[38px_1fr] items-start gap-3 rounded-lg bg-[#f7fbfa] p-3"
                   key={step}
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111111] text-sm font-black text-white">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#17322e] text-sm font-black text-white">
                     {index + 1}
                   </span>
                   <p className="pt-1 text-sm font-bold leading-6 text-[#3c4541]">
@@ -114,19 +115,19 @@ export default function DatabasePage() {
             </div>
           </section>
 
-          <section className="rounded-[32px] border border-[#e2d8c8] bg-[#111111] p-5 text-white shadow-sm">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d6b35f]">
-              Snapshot demo
+          <section className="rounded-lg border border-[#17322e] bg-[#17322e] p-5 text-white shadow-sm">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#a8e1d7]">
+              Snapshot intern
             </p>
             <div className="mt-5 grid gap-3">
-              <div className="rounded-[22px] bg-white/[.08] p-4">
-                <p className="font-black">Pacienti</p>
+              <div className="rounded-lg bg-white/[.08] p-4">
+                <p className="font-black">Pacienți</p>
                 <p className="mt-1 text-sm leading-6 text-white/68">
                   {patients.map((patient) => patient.name).join(", ")}
                 </p>
               </div>
-              <div className="rounded-[22px] bg-white/[.08] p-4">
-                <p className="font-black">Programari</p>
+              <div className="rounded-lg bg-white/[.08] p-4">
+                <p className="font-black">Programări</p>
                 <p className="mt-1 text-sm leading-6 text-white/68">
                   {appointments
                     .map(
@@ -136,7 +137,7 @@ export default function DatabasePage() {
                     .join(" | ")}
                 </p>
               </div>
-              <div className="rounded-[22px] bg-white/[.08] p-4">
+              <div className="rounded-lg bg-white/[.08] p-4">
                 <p className="font-black">Cereri</p>
                 <p className="mt-1 text-sm leading-6 text-white/68">
                   {appointmentRequests

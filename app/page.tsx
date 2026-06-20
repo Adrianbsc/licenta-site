@@ -45,85 +45,105 @@ export default async function Home() {
   const reviews = await listReviews();
 
   return (
-    <main className="min-h-screen bg-[#f4faf8] text-[#17322e]">
+    <main className="min-h-screen overflow-hidden bg-[#f3faf7] text-[#17322e]">
       <section
-        className="relative isolate overflow-hidden border-b border-[#d2e8e2] bg-[#eaf7f4]"
-        style={{
-          backgroundImage:
-            "linear-gradient(90deg, rgba(247,251,250,.98) 0%, rgba(247,251,250,.9) 50%, rgba(247,251,250,.36) 100%), url('https://upload.wikimedia.org/wikipedia/commons/9/9a/ITS_Dental_Chair.jpg')",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
+        className="relative isolate min-h-screen overflow-hidden border-b border-[#d2e8e2] bg-[#17322e] bg-cover bg-center text-white"
+        style={{ backgroundImage: "url('/cases/smile-reconstruction.png')" }}
       >
-        <header className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8 lg:px-10">
+        <Image
+          alt="Pacientă zâmbind într-un cabinet stomatologic luminos"
+          className="object-cover"
+          fill
+          priority
+          sizes="100vw"
+          src="/cases/smile-reconstruction.png"
+          style={{ objectPosition: "center 42%" }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,29,26,.9)_0%,rgba(10,29,26,.68)_44%,rgba(10,29,26,.06)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#17322e]/70 to-transparent" />
+
+        <header className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8 lg:px-10">
           <Link
-            className="rounded-full bg-white/88 px-4 py-2 text-2xl font-black tracking-normal text-[#17322e] shadow-sm ring-1 ring-[#d8eee9] backdrop-blur"
+            className="rounded-full bg-white/90 px-4 py-2 text-2xl font-black tracking-normal text-[#17322e] shadow-sm ring-1 ring-white/70 backdrop-blur hover:-translate-y-0.5"
             href="/"
           >
             {clinic.name}
           </Link>
-          <nav className="hidden items-center gap-6 rounded-full bg-white/84 px-5 py-3 text-sm font-bold text-[#516964] shadow-[0_12px_36px_rgba(23,50,46,.08)] ring-1 ring-[#d8eee9] backdrop-blur md:flex">
-            <a className="transition hover:text-[#248176]" href="#servicii">
+          <nav className="hidden items-center gap-6 rounded-full bg-[#102d28]/58 px-5 py-3 text-sm font-bold text-white/84 shadow-[0_12px_36px_rgba(0,0,0,.14)] ring-1 ring-white/18 backdrop-blur md:flex">
+            <a className="transition hover:text-white" href="#servicii">
               Servicii
             </a>
-            <a className="transition hover:text-[#248176]" href="#tarife">
+            <a className="transition hover:text-white" href="#tarife">
               Tarife
             </a>
-            <a className="transition hover:text-[#248176]" href="#cazuri">
+            <a className="transition hover:text-white" href="#cazuri">
               Cazuri
             </a>
-            <a className="transition hover:text-[#248176]" href="#review-uri">
+            <a className="transition hover:text-white" href="#review-uri">
               Recenzii
             </a>
-            <a className="transition hover:text-[#248176]" href="#echipa">
+            <a className="transition hover:text-white" href="#echipa">
               Echipa
             </a>
             <Link
-              className="rounded-full border border-[#b7ded7] bg-white px-4 py-2 text-[#248176] shadow-sm transition hover:border-[#62b6a7] hover:bg-[#eef8f5]"
+              className="rounded-full border border-white/22 bg-white/12 px-4 py-2 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-white/20"
               href="/doctor"
             >
               Panou doctor
             </Link>
           </nav>
           <a
-            className="rounded-full bg-[#62b6a7] px-5 py-3 text-sm font-black text-white shadow-[0_12px_30px_rgba(36,129,118,.22)] transition hover:bg-[#4aa495]"
+            className="button-sheen hidden shrink-0 rounded-full bg-[#e9bf55] px-5 py-3 text-sm font-black text-[#17322e] shadow-[0_12px_30px_rgba(0,0,0,.18)] transition hover:-translate-y-0.5 hover:bg-[#f4d578] sm:inline-flex"
             href="#programare"
           >
             Vreau o programare
           </a>
         </header>
 
-        <div className="mx-auto grid min-h-[calc(100svh-92px)] w-full max-w-7xl items-center gap-10 px-5 pb-16 pt-8 sm:px-8 lg:grid-cols-[1.04fr_.96fr] lg:px-10">
-          <div className="max-w-3xl">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-[#248176]">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-92px)] w-full max-w-7xl items-center gap-10 px-5 pb-16 pt-8 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:px-10">
+          <div className="reveal-up max-w-[22rem] sm:max-w-3xl">
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-[#a8e1d7]">
               Cabinet stomatologic în {clinic.city}
             </p>
-            <h1 className="mt-5 text-4xl font-black leading-[1.02] tracking-normal text-[#17322e] sm:text-6xl">
-              Zâmbete lucrate atent, într-un cabinet calm și luminos.
+            <h1 className="mt-5 text-4xl font-black leading-[1.02] tracking-normal text-white sm:text-6xl">
+              Stomatologie calmă, cu planuri explicate pe limba ta.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#516964]">
-              Cata Stoma este un cabinet din zona {clinic.area}, pentru pacienți
-              care vor explicații clare, planuri realiste și tratamente făcute
-              fără grabă. Tratăm problema, dar păstrăm omul în centru.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/82">
+              Cata Stoma este un cabinet din zona {clinic.area}, pentru oameni
+              care vor să știe ce se întâmplă, cât durează și ce merită făcut
+              acum. Fără promisiuni umflate, fără grabă inutilă.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                className="rounded-full bg-[#f3c96b] px-6 py-3 text-sm font-black text-[#17322e] shadow-[0_14px_34px_rgba(197,155,55,.24)] transition hover:bg-[#f6d889]"
+                className="button-sheen rounded-full bg-[#e9bf55] px-6 py-3 text-sm font-black text-[#17322e] shadow-[0_14px_34px_rgba(0,0,0,.18)] transition hover:-translate-y-0.5 hover:bg-[#f4d578]"
                 href="#programare"
               >
                 Hai să ne cunoaștem
               </a>
               <a
-                className="rounded-full border border-[#b7ded7] bg-white/80 px-6 py-3 text-sm font-black text-[#248176] shadow-sm transition hover:bg-white"
+                className="rounded-full border border-white/32 bg-white/12 px-6 py-3 text-sm font-black text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
                 href={`tel:${clinic.phone.replaceAll(" ", "")}`}
               >
                 {clinic.phone}
               </a>
             </div>
+            <div className="mt-10 grid max-w-[22rem] gap-3 sm:max-w-2xl sm:grid-cols-4">
+              {metrics.map(([value, label]) => (
+                <div
+                  className="rounded-lg border border-white/18 bg-white/12 p-4 backdrop-blur"
+                  key={`${value}-${label}`}
+                >
+                  <p className="text-3xl font-black text-white">{value}</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-white/72">
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <aside className="max-w-md justify-self-start rounded-lg border border-[#cde7e1] bg-white/94 p-5 text-[#17322e] shadow-[0_24px_80px_rgba(42,112,103,.16)] backdrop-blur lg:justify-self-end">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#248176]">
+          <aside className="float-soft max-w-md justify-self-start rounded-lg border border-white/70 bg-white/94 p-5 text-[#17322e] shadow-[0_24px_70px_rgba(0,0,0,.2)] backdrop-blur lg:justify-self-end">
+            <p className="text-sm font-black uppercase tracking-[0.18em] text-[#176f65]">
               Prima consultație
             </p>
             <h2 className="mt-3 text-3xl font-black">
@@ -133,15 +153,19 @@ export default async function Home() {
               Pleci cu răspunsuri clare: ce este urgent, ce poate aștepta și ce
               opțiuni se potrivesc realist bugetului tău.
             </p>
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {metrics.map(([value, label]) => (
+            <div className="mt-6 grid gap-3">
+              {[
+                "Îți arătăm pe imagini ce observăm.",
+                "Primești variante, nu presiune.",
+                "Stabilim pașii în ordinea care are sens.",
+              ].map((item) => (
                 <div
-                  className="rounded-lg bg-[#eef8f5] p-4 ring-1 ring-[#d8eee9] transition hover:bg-[#e4f5f1]"
-                  key={`${value}-${label}`}
+                  className="flex items-start gap-3 rounded-lg bg-[#eef8f5] p-4 ring-1 ring-[#d8eee9]"
+                  key={item}
                 >
-                  <p className="text-3xl font-black text-[#248176]">{value}</p>
-                  <p className="mt-1 text-xs font-bold leading-5 text-[#647a75]">
-                    {label}
+                  <span className="mt-1 h-2 w-2 rounded-full bg-[#2d8d7f]" />
+                  <p className="text-sm font-bold leading-6 text-[#314d48]">
+                    {item}
                   </p>
                 </div>
               ))}
@@ -158,7 +182,7 @@ export default async function Home() {
           <div className="flex flex-wrap gap-3">
             {signatureTreatments.map((treatment) => (
               <a
-                className="rounded-full border border-[#cde7e1] bg-[#f7fbfa] px-4 py-2 text-sm font-black text-[#314d48] transition hover:border-[#62b6a7] hover:bg-[#eaf7f4] hover:text-[#248176]"
+                className="rounded-full border border-[#cde7e1] bg-[#f7fbfa] px-4 py-2 text-sm font-black text-[#314d48] transition hover:-translate-y-0.5 hover:border-[#62b6a7] hover:bg-[#eaf7f4] hover:text-[#248176]"
                 href="#servicii"
                 key={treatment}
               >
@@ -189,7 +213,7 @@ export default async function Home() {
           <div className="grid gap-4 md:grid-cols-2">
             {services.slice(0, 4).map((service) => (
               <article
-                className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_14px_40px_rgba(42,112,103,.08)] transition hover:-translate-y-1 hover:border-[#b7ded7] hover:shadow-[0_20px_54px_rgba(42,112,103,.13)]"
+                className="soft-card interactive-card rounded-lg p-5"
                 key={service.name}
               >
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c59b37]">
@@ -230,7 +254,7 @@ export default async function Home() {
           <div className="mt-8 grid gap-4">
             {serviceTariffs.map((group) => (
               <article
-                className="overflow-hidden rounded-lg border border-[#cde7e1] bg-[#f7fbfa] shadow-[0_12px_34px_rgba(23,50,46,.06)]"
+                className="soft-card overflow-hidden rounded-lg"
                 key={group.category}
               >
                 <div className="grid gap-3 bg-[#e3f4f0] px-5 py-4 text-[#17322e] md:grid-cols-[220px_1fr_120px_140px_100px] md:items-center">
@@ -274,7 +298,7 @@ export default async function Home() {
                       {item.price}
                     </p>
                     <a
-                      className="w-fit rounded-full bg-[#f3c96b] px-4 py-2 text-xs font-black text-[#17322e] transition hover:bg-[#f6d889]"
+                      className="button-sheen w-fit rounded-full bg-[#e9bf55] px-4 py-2 text-xs font-black text-[#17322e] transition hover:-translate-y-0.5 hover:bg-[#f4d578]"
                       href="#programare"
                     >
                       Alege
@@ -303,7 +327,7 @@ export default async function Home() {
               </h2>
             </div>
             <a
-              className="w-fit rounded-full border border-[#b7ded7] bg-white px-5 py-3 text-sm font-black text-[#248176] shadow-sm transition hover:border-[#62b6a7]"
+              className="w-fit rounded-full border border-[#b7ded7] bg-white px-5 py-3 text-sm font-black text-[#248176] shadow-sm transition hover:-translate-y-0.5 hover:border-[#62b6a7]"
               href="#programare"
             >
               Discută cazul tău
@@ -313,7 +337,7 @@ export default async function Home() {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {caseStudies.map((study, index) => (
               <article
-                className="group overflow-hidden rounded-lg border border-[#cde7e1] bg-white shadow-[0_14px_40px_rgba(42,112,103,.08)] transition hover:-translate-y-1 hover:shadow-[0_20px_54px_rgba(42,112,103,.13)]"
+                className="interactive-card group overflow-hidden rounded-lg border border-[#cde7e1] bg-white shadow-[0_14px_40px_rgba(42,112,103,.08)]"
                 key={study.title}
               >
                 <div className="relative aspect-[16/11] overflow-hidden bg-[#d9efe9]">
@@ -328,7 +352,7 @@ export default async function Home() {
                 </div>
                 <div className="p-5">
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-[#248176]">
-                    Caz demonstrativ
+                    Caz din portofoliu
                   </p>
                   <h3 className="text-xl font-black text-[#17322e]">
                     {study.title}
@@ -366,7 +390,7 @@ export default async function Home() {
           <div className="grid gap-4">
             {doctors.map((doctor) => (
               <article
-                className="rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-5"
+                className="interactive-card rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-5"
                 key={doctor.name}
               >
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">

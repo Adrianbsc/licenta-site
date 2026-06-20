@@ -58,6 +58,9 @@ const emptyForm = {
   room: "Cabinet 1",
 };
 
+const fieldClass =
+  "rounded-lg border border-[#cde7e1] bg-white/92 px-4 py-3 font-medium outline-none focus:border-[#2d8d7f]";
+
 export default function DoctorDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [form, setForm] = useState(emptyForm);
@@ -110,9 +113,9 @@ export default function DoctorDashboard() {
     const patients = data?.patients.length ?? 0;
 
     return [
-      ["Azi", appointments.toString(), "programari confirmate"],
+      ["Azi", appointments.toString(), "programări confirmate"],
       ["Inbox", requests.toString(), "cereri de sunat"],
-      ["Pacienti", patients.toString(), "fise active"],
+      ["Pacienți", patients.toString(), "fișe active"],
       ["Ocupare", appointments ? "78%" : "0%", "din ziua curenta"],
     ];
   }, [data]);
@@ -163,7 +166,7 @@ export default function DoctorDashboard() {
           : current,
       );
       setForm(emptyForm);
-      setMessage("Programarea a fost salvată și botul a primit alerta.");
+      setMessage("Programarea a fost salvată și asistentul a primit alertă.");
     } catch {
       setMessage("Nu pot salva acum. Verifică dacă serverul rulează.");
     } finally {
@@ -222,8 +225,10 @@ export default function DoctorDashboard() {
 
   return (
     <>
-      <header className="border-b border-[#d8eee9] bg-[#f7fbfa] text-[#17322e]">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-6 sm:px-8 lg:px-10">
+      <header className="relative overflow-hidden border-b border-[#d8eee9] bg-[#edf8f5] text-[#17322e]">
+        <div className="fine-grid absolute inset-0 opacity-70" />
+        <div className="absolute right-[-8rem] top-[-10rem] h-80 w-80 rounded-full bg-[#cdeee7] blur-3xl" />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 py-7 sm:px-8 lg:px-10">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-sm font-black uppercase tracking-[0.2em] text-[#248176]">
@@ -232,9 +237,13 @@ export default function DoctorDashboard() {
               <h1 className="mt-2 text-3xl font-black tracking-normal sm:text-5xl">
                 Agenda Cata Stoma
               </h1>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#617873]">
+                Programări, cereri și fișe scurte într-un tablou de lucru ușor
+                de scanat între consultații.
+              </p>
             </div>
             <button
-              className="rounded-full border border-[#b7ded7] bg-white px-5 py-3 text-sm font-black text-[#248176] transition hover:border-[#62b6a7]"
+              className="rounded-full border border-[#b7ded7] bg-white/88 px-5 py-3 text-sm font-black text-[#248176] shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-[#62b6a7]"
               onClick={logout}
               type="button"
             >
@@ -245,7 +254,7 @@ export default function DoctorDashboard() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {stats.map(([label, value, detail]) => (
               <div
-                className="rounded-lg border border-[#d8eee9] bg-white p-4 shadow-[0_12px_36px_rgba(42,112,103,.08)]"
+                className="soft-card interactive-card rounded-lg p-4"
                 key={label}
               >
                 <p className="text-xs font-black uppercase tracking-[0.14em] text-[#7d948f]">
@@ -263,22 +272,38 @@ export default function DoctorDashboard() {
 
       <section className="mx-auto grid w-full max-w-7xl gap-6 px-5 py-6 sm:px-8 lg:grid-cols-[1.28fr_.72fr] lg:px-10">
         <div className="grid gap-6">
-          <section className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]">
+          <section className="soft-card rounded-lg p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
                   Lista zilei
                 </p>
                 <h2 className="mt-2 text-2xl font-black">
-                  Programari confirmate
+                  Programări confirmate
                 </h2>
               </div>
             </div>
 
             <div className="mt-5 grid gap-3">
+              {!data
+                ? [0, 1, 2].map((item) => (
+                    <div
+                      className="animate-pulse rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
+                      key={item}
+                    >
+                      <div className="h-4 w-28 rounded-full bg-[#d8eee9]" />
+                      <div className="mt-4 h-3 w-2/3 rounded-full bg-[#e7f3f0]" />
+                    </div>
+                  ))
+                : null}
+              {data && data.appointments.length === 0 ? (
+                <p className="rounded-lg bg-[#f7fbfa] p-4 text-sm font-bold text-[#617873] ring-1 ring-[#d8eee9]">
+                  Nu există programări confirmate pentru intervalul curent.
+                </p>
+              ) : null}
               {(data?.appointments ?? []).map((appointment) => (
                 <article
-                  className="grid gap-4 rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4 md:grid-cols-[96px_1fr_130px_auto]"
+                  className="interactive-card grid gap-4 rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4 md:grid-cols-[96px_1fr_130px_auto]"
                   key={appointment.id}
                 >
                   <div className="rounded-lg bg-white p-3 text-center ring-1 ring-[#d8eee9]">
@@ -294,7 +319,7 @@ export default function DoctorDashboard() {
                       <h3 className="font-black">{appointment.patient}</h3>
                       {appointment.id === nextActiveAppointmentId ? (
                         <span className="rounded-full bg-[#fff3cf] px-2 py-1 text-xs font-black text-[#8a6511]">
-                          urmatorul
+                          următorul
                         </span>
                       ) : null}
                     </div>
@@ -302,7 +327,7 @@ export default function DoctorDashboard() {
                       {appointment.treatment} - {appointment.room}
                     </p>
                     <p className="mt-2 text-xs font-bold text-[#248176]">
-                      Bot reminder: notifica medicul inainte de programare.
+                      Reminder intern: notifică medicul înainte de programare.
                     </p>
                   </div>
                   <span className="h-fit rounded-full bg-white px-3 py-2 text-center text-xs font-black text-[#248176] ring-1 ring-[#cde7e1]">
@@ -317,18 +342,18 @@ export default function DoctorDashboard() {
                     onClick={() => cancelExistingAppointment(appointment.id)}
                     type="button"
                   >
-                    {cancellingId === appointment.id ? "Se anuleaza" : "Anuleaza"}
+                    {cancellingId === appointment.id ? "Se anulează" : "Anulează"}
                   </button>
                 </article>
               ))}
             </div>
           </section>
 
-          <section className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]">
+          <section className="soft-card rounded-lg p-5">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
-              Adauga manual
+              Adaugă manual
             </p>
-            <h2 className="mt-2 text-2xl font-black">Programare noua</h2>
+            <h2 className="mt-2 text-2xl font-black">Programare nouă</h2>
             <form className="mt-5 grid gap-4 sm:grid-cols-2" onSubmit={addAppointment}>
               {[
                 ["patient", "Pacient", "Mara Popescu"],
@@ -341,7 +366,7 @@ export default function DoctorDashboard() {
                 <label className="grid gap-2 text-sm font-black" key={name}>
                   {label}
                   <input
-                    className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none focus:border-[#62b6a7]"
+                    className={fieldClass}
                     name={name}
                     onChange={(event) =>
                       setForm((current) => ({
@@ -358,7 +383,7 @@ export default function DoctorDashboard() {
               <label className="grid gap-2 text-sm font-black">
                 Data
                 <input
-                  className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none focus:border-[#62b6a7]"
+                  className={fieldClass}
                   onChange={(event) =>
                     setForm((current) => ({ ...current, date: event.target.value }))
                   }
@@ -367,11 +392,11 @@ export default function DoctorDashboard() {
                 />
               </label>
               <button
-                className="self-end rounded-full bg-[#62b6a7] px-5 py-4 text-sm font-black text-white transition hover:bg-[#4aa495] disabled:opacity-50"
+                className="button-sheen self-end rounded-full bg-[#2d8d7f] px-5 py-4 text-sm font-black text-white shadow-[0_16px_38px_rgba(45,141,127,.2)] transition hover:-translate-y-0.5 hover:bg-[#176f65] disabled:opacity-50"
                 disabled={isSaving}
                 type="submit"
               >
-                Salveaza programarea
+                Salvează programarea
               </button>
             </form>
             {message ? (
@@ -382,15 +407,15 @@ export default function DoctorDashboard() {
           </section>
 
           <section className="grid gap-6 xl:grid-cols-[.85fr_1.15fr]">
-            <div className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]">
+            <div className="soft-card rounded-lg p-5">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
                 Calendar
               </p>
-              <h2 className="mt-2 text-2xl font-black">Saptamana curenta</h2>
+              <h2 className="mt-2 text-2xl font-black">Săptămâna curentă</h2>
               <div className="mt-5 grid gap-3">
                 {(data?.calendarWeek ?? []).map((day) => (
                   <div
-                    className="rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
+                    className="interactive-card rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
                     key={day.day}
                   >
                     <div className="flex items-center justify-between">
@@ -416,15 +441,15 @@ export default function DoctorDashboard() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]">
+            <div className="soft-card rounded-lg p-5">
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
-                Pacienti
+                Pacienți
               </p>
-              <h2 className="mt-2 text-2xl font-black">Fise rapide</h2>
+              <h2 className="mt-2 text-2xl font-black">Fișe rapide</h2>
               <div className="mt-5 grid gap-3">
                 {(data?.patients ?? []).map((patient) => (
                   <article
-                    className="rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
+                    className="interactive-card rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
                     key={patient.id}
                   >
                     <div className="flex flex-wrap items-start justify-between gap-3">
@@ -461,15 +486,26 @@ export default function DoctorDashboard() {
         <aside className="grid h-fit gap-6 lg:sticky lg:top-6">
           <ClinicBot mode="doctor" />
 
-          <section className="rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]">
+          <section className="soft-card rounded-lg p-5">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
-              Inbox programari
+              Inbox programări
             </p>
             <h2 className="mt-2 text-2xl font-black">Cereri noi</h2>
             <div className="mt-5 grid gap-3">
+              {!data ? (
+                <div className="animate-pulse rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4">
+                  <div className="h-4 w-32 rounded-full bg-[#d8eee9]" />
+                  <div className="mt-4 h-3 w-full rounded-full bg-[#e7f3f0]" />
+                </div>
+              ) : null}
+              {data && data.appointmentRequests.length === 0 ? (
+                <p className="rounded-lg bg-[#f7fbfa] p-4 text-sm font-bold text-[#617873] ring-1 ring-[#d8eee9]">
+                  Nu sunt cereri noi în inbox.
+                </p>
+              ) : null}
               {(data?.appointmentRequests ?? []).map((request) => (
                 <article
-                    className="rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
+                  className="interactive-card rounded-lg border border-[#d8eee9] bg-[#f7fbfa] p-4"
                   key={request.id}
                 >
                   <div className="flex items-start justify-between gap-3">

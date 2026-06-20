@@ -2,7 +2,7 @@ export const clinic = {
   name: "Cata Stoma",
   city: "Timișoara",
   area: "Take Ionescu - Piața Badea Cârțan",
-  phone: "0724 123 123",
+  phone: "0732743277",
   email: "contact@catastoma.ro",
   address: "Str. Simion Bărnuțiu 18, Timișoara",
   hours: "Luni - Vineri, 09:00 - 19:00",
@@ -253,7 +253,7 @@ export const botReminders = [
   {
     time: "09:55",
     title: "Sună pacientul următor dacă întârzie prima programare",
-    detail: "Radu Dima intră la 10:15. Botul poate trimite SMS automat după conectarea bazei de date.",
+    detail: "Radu Dima intră la 10:15. Asistentul poate trimite SMS automat după conectarea bazei de date.",
   },
   {
     time: "15:45",
@@ -355,6 +355,6 @@ export const databaseTables = [
     name: "chat_messages",
     rows: 14,
     fields: ["id", "sessionId", "role", "message", "createdAt"],
-    purpose: "Istoric conversații între pacient, doctor și botul AI.",
+    purpose: "Istoric conversații între pacient, doctor și asistentul de cabinet.",
   },
 ];

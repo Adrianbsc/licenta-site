@@ -8,7 +8,7 @@ export default async function DoctorPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7fbfa] text-[#17322e]">
+    <main className="min-h-screen bg-[#f3faf7] text-[#17322e]">
       <DoctorDashboard />
     </main>
   );

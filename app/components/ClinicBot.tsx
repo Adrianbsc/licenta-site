@@ -27,8 +27,8 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
     {
       role: "bot",
       text: isDoctor
-        ? "Bună, doctore. Îți urmăresc programările, cererile noi și pacienții care au observații importante."
-        : `Bună, sunt Asistentul Virtual Cata Stoma. Te pot ajuta cu program, servicii și cereri de programare în ${clinic.city}.`,
+        ? "Bună, doctore. Am agenda, cererile noi și observațiile pacienților la îndemână."
+        : `Bună, sunt asistentul de cabinet Cata Stoma. Te pot ajuta cu programul, serviciile și cererile de programare în ${clinic.city}.`,
     },
   ]);
 
@@ -36,16 +36,16 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
     () =>
       isDoctor
         ? [
-            ["urmatoarea", "Cine urmeaza?"],
+            ["urmatoarea", "Cine urmează?"],
             ["cereri", "Cereri urgente"],
-            ["calendar", "Cum arata ziua?"],
-            ["pacienti", "Pacienti cu note"],
+            ["calendar", "Cum arată ziua?"],
+            ["pacienti", "Pacienți cu note"],
           ]
         : [
             ["program", "Program"],
-            ["preturi", "Preturi"],
+            ["preturi", "Prețuri"],
             ["programare", "Vreau programare"],
-            ["urgente", "Urgenta"],
+            ["urgente", "Urgență"],
           ],
     [isDoctor],
   );
@@ -94,21 +94,22 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
   }
 
   const shellClass = isDoctor
-    ? "rounded-lg border border-[#cde7e1] bg-white p-4 shadow-[0_12px_36px_rgba(42,112,103,.08)]"
-    : "fixed bottom-5 right-5 z-50 w-[min(390px,calc(100vw-32px))] rounded-lg border border-[#cde7e1] bg-white p-4 text-[#17322e] shadow-[0_22px_70px_rgba(42,112,103,.22)]";
+    ? "soft-card rounded-lg p-4"
+    : "glass-panel fixed bottom-4 left-4 right-4 z-50 rounded-lg p-4 text-[#17322e] sm:bottom-5 sm:left-auto sm:right-5 sm:w-[min(390px,calc(100vw-32px))]";
 
   if (!open && !isDoctor) {
     return (
       <button
-        aria-label="Deschide Asistent Virtual"
-        className="fixed bottom-5 right-5 z-50 flex max-w-[calc(100vw-32px)] items-center gap-3 rounded-full border border-[#cde7e1] bg-white px-4 py-3 text-sm font-black text-[#17322e] shadow-[0_18px_55px_rgba(42,112,103,.22)] transition hover:border-[#62b6a7] hover:bg-[#f7fbfa]"
+        aria-label="Deschide asistentul de cabinet"
+        className="fixed bottom-4 left-4 z-50 flex max-w-[calc(100vw-32px)] items-center gap-3 rounded-full border border-white/70 bg-white/90 px-4 py-3 text-sm font-black text-[#17322e] shadow-[0_18px_55px_rgba(42,112,103,.22)] backdrop-blur transition hover:-translate-y-0.5 hover:border-[#62b6a7] hover:bg-white sm:bottom-5 sm:left-auto sm:right-5"
         onClick={() => setOpen(true)}
         type="button"
       >
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#62b6a7] text-xs font-black text-white shadow-sm">
-          AI
+        <span className="pulse-dot flex h-10 w-10 items-center justify-center rounded-full bg-[#2d8d7f] text-xs font-black text-white shadow-sm">
+          CS
         </span>
-        <span>Asistent Virtual</span>
+        <span className="hidden sm:inline">Întreabă cabinetul</span>
+        <span className="sm:hidden">Cabinet</span>
       </button>
     );
   }
@@ -117,15 +118,15 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
     <section className={shellClass}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#62b6a7] text-xs font-black text-white shadow-sm">
-            AI
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2d8d7f] text-xs font-black text-white shadow-sm">
+            CS
           </span>
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
-              {isDoctor ? "Asistent doctor" : "Asistent pacient"}
+              {isDoctor ? "Agenda internă" : "Asistent cabinet"}
             </p>
             <h2 className="mt-1 text-xl font-black text-[#17322e]">
-              {isDoctor ? "Asistent Doctor" : "Asistent Virtual"}
+              {isDoctor ? "Rezumatul zilei" : "Cata Stoma răspunde"}
             </h2>
           </div>
         </div>
@@ -135,7 +136,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
             onClick={() => setOpen(false)}
             type="button"
           >
-            inchide
+            închide
           </button>
         ) : null}
       </div>
@@ -144,7 +145,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
         <div className="mt-4 grid gap-2">
           {botReminders.map((reminder) => (
             <div
-              className="rounded-lg bg-[#f7fbfa] p-3 text-sm ring-1 ring-[#d8eee9]"
+              className="rounded-lg bg-[#f4fbf9] p-3 text-sm ring-1 ring-[#d8eee9]"
               key={reminder.title}
             >
               <p className="font-black text-[#17322e]">
@@ -156,7 +157,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
         </div>
       ) : null}
 
-      <div className="mt-4 max-h-64 space-y-2 overflow-auto rounded-lg bg-[#f7fbfa] p-3 ring-1 ring-[#d8eee9]">
+      <div className="mt-4 max-h-72 space-y-2 overflow-auto rounded-lg bg-[#f7fbfa] p-3 ring-1 ring-[#d8eee9]">
         {messages.map((message, index) => (
           <p
             className={
@@ -174,7 +175,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
       <div className="mt-3 flex flex-wrap gap-2">
         {prompts.map(([key, label]) => (
           <button
-            className="rounded-full border border-[#cde7e1] bg-white px-3 py-2 text-xs font-black text-[#248176] transition hover:border-[#62b6a7] hover:bg-[#eef8f5]"
+            className="rounded-full border border-[#cde7e1] bg-white px-3 py-2 text-xs font-black text-[#248176] transition hover:-translate-y-0.5 hover:border-[#62b6a7] hover:bg-[#eef8f5]"
             key={key}
             onClick={() => sendMessage(label)}
             type="button"
@@ -196,13 +197,13 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
           onChange={(event) => setInput(event.target.value)}
           placeholder={
             isDoctor
-              ? "Scrie: cine urmeaza, cereri urgente..."
+              ? "Scrie: cine urmează, cereri urgente..."
               : "Scrie întrebarea ta..."
           }
           value={input}
         />
         <button
-          className="rounded-full bg-[#62b6a7] px-4 py-3 text-sm font-black text-white transition hover:bg-[#4aa495] disabled:opacity-55"
+          className="button-sheen rounded-full bg-[#2d8d7f] px-4 py-3 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-[#176f65] disabled:opacity-55"
           disabled={isLoading}
           type="submit"
         >
@@ -211,8 +212,9 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
       </form>
 
       <p className="mt-3 text-xs leading-5 text-[#647a75]">
-        Demo: {appointments.length} programări și {appointmentRequests.length}{" "}
-        cereri sunt citite din datele aplicatiei.
+        {isDoctor
+          ? `${appointments.length} programări și ${appointmentRequests.length} cereri sunt în agenda internă.`
+          : "Răspunsurile sunt orientative; confirmarea finală vine telefonic de la cabinet."}
       </p>
     </section>
   );

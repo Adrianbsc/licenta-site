@@ -1,19 +1,189 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7fbfa;
+  --background: #f3faf7;
   --foreground: #17322e;
+  --surface: #ffffff;
+  --muted: #617873;
+  --line: #d5e9e4;
+  --mint: #2d8d7f;
+  --mint-dark: #176f65;
+  --gold: #e9bf55;
+  --ink: #142d29;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
+  --font-sans: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
   --font-mono: "Courier New", Consolas, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #ccefe7;
+  color: var(--ink);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+input,
+select,
+textarea {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow:
+    0 0 0 4px rgba(45, 141, 127, 0.12),
+    0 12px 28px rgba(20, 45, 41, 0.06);
+}
+
+.fine-grid {
+  background-image:
+    linear-gradient(rgba(45, 141, 127, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45, 141, 127, 0.07) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.glass-panel {
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 24px 70px rgba(20, 45, 41, 0.14);
+  backdrop-filter: blur(18px);
+}
+
+.soft-card {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 45px rgba(42, 112, 103, 0.08);
+}
+
+.interactive-card {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.interactive-card:hover {
+  border-color: #a9d7ce;
+  transform: translateY(-4px);
+  box-shadow: 0 24px 62px rgba(42, 112, 103, 0.14);
+}
+
+.button-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-sheen::after {
+  content: "";
+  position: absolute;
+  inset: -120% auto auto -35%;
+  height: 260%;
+  width: 34%;
+  transform: rotate(22deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+  transition: left 520ms ease;
+}
+
+.button-sheen:hover::after {
+  left: 120%;
+}
+
+.reveal-up {
+  animation: reveal-up 620ms ease both;
+}
+
+.float-soft {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+.pulse-dot {
+  box-shadow: 0 0 0 0 rgba(45, 141, 127, 0.35);
+  animation: pulse-dot 2.4s ease-out infinite;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-dot {
+  70% {
+    box-shadow: 0 0 0 12px rgba(45, 141, 127, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(45, 141, 127, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
 }

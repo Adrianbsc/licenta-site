@@ -15,6 +15,9 @@ const emptyReview = {
   text: "",
 };
 
+const fieldClass =
+  "rounded-lg border border-[#cde7e1] bg-white/92 px-4 py-3 font-medium outline-none focus:border-[#2d8d7f]";
+
 export default function ReviewsClient({
   compact = false,
   initialReviews,
@@ -71,8 +74,8 @@ export default function ReviewsClient({
       <aside
         className={
           compact
-            ? "h-fit rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_14px_40px_rgba(42,112,103,.08)]"
-            : "h-fit rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_14px_40px_rgba(42,112,103,.08)] lg:sticky lg:top-6"
+            ? "soft-card h-fit rounded-lg p-5"
+            : "soft-card h-fit rounded-lg p-5 lg:sticky lg:top-6"
         }
       >
         <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
@@ -83,7 +86,7 @@ export default function ReviewsClient({
           <label className="grid gap-2 text-sm font-black">
             Nume
             <input
-              className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+              className={fieldClass}
               onChange={(event) =>
                 setForm((current) => ({ ...current, name: event.target.value }))
               }
@@ -94,7 +97,7 @@ export default function ReviewsClient({
           <label className="grid gap-2 text-sm font-black">
             Notă
             <select
-              className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+              className={fieldClass}
               onChange={(event) =>
                 setForm((current) => ({
                   ...current,
@@ -113,7 +116,7 @@ export default function ReviewsClient({
           <label className="grid gap-2 text-sm font-black">
             Tratament
             <input
-              className="rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+              className={fieldClass}
               onChange={(event) =>
                 setForm((current) => ({
                   ...current,
@@ -127,7 +130,7 @@ export default function ReviewsClient({
           <label className="grid gap-2 text-sm font-black">
             Recenzie
             <textarea
-              className="min-h-32 rounded-lg border border-[#cde7e1] px-4 py-3 font-medium outline-none transition focus:border-[#62b6a7]"
+              className={`${fieldClass} min-h-32`}
               onChange={(event) =>
                 setForm((current) => ({ ...current, text: event.target.value }))
               }
@@ -136,7 +139,7 @@ export default function ReviewsClient({
             />
           </label>
           <button
-            className="rounded-full bg-[#62b6a7] px-5 py-4 text-sm font-black text-white transition hover:bg-[#4aa495] disabled:opacity-50"
+            className="button-sheen rounded-full bg-[#2d8d7f] px-5 py-4 text-sm font-black text-white shadow-[0_16px_38px_rgba(45,141,127,.2)] transition hover:-translate-y-0.5 hover:bg-[#176f65] disabled:opacity-50"
             disabled={isSaving}
             type="submit"
           >
@@ -154,8 +157,8 @@ export default function ReviewsClient({
         <div
           className={
             compact
-              ? "grid gap-4 rounded-lg border border-[#d8eee9] bg-white p-5 shadow-sm sm:grid-cols-2"
-              : "grid gap-4 rounded-lg border border-[#d8eee9] bg-white p-5 shadow-sm sm:grid-cols-3"
+              ? "soft-card grid gap-4 rounded-lg p-5 sm:grid-cols-2"
+              : "soft-card grid gap-4 rounded-lg p-5 sm:grid-cols-3"
           }
         >
           <div>
@@ -188,8 +191,8 @@ export default function ReviewsClient({
           <article
             className={
               compact
-                ? "rounded-lg border border-[#d8eee9] bg-white p-5"
-                : "rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]"
+                ? "interactive-card rounded-lg border border-[#d8eee9] bg-white p-5"
+                : "interactive-card rounded-lg border border-[#d8eee9] bg-white p-5 shadow-[0_12px_36px_rgba(42,112,103,.08)]"
             }
             key={review.id}
           >

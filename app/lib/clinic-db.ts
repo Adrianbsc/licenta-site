@@ -6,6 +6,7 @@ import {
   appointments,
   botReminders,
   calendarWeek,
+  clinic,
   patients,
   serviceTariffs,
   testimonials,
@@ -437,8 +438,8 @@ function createSqliteAppointment(input: AppointmentInput) {
       appointment.time,
       "dashboard",
       "pending",
-      `Programare noua: ${appointment.patient}`,
-      `Botul va aminti de ${appointment.treatment} la ${appointment.time}, în ${appointment.room}.`,
+      `Programare nouă: ${appointment.patient}`,
+      `Asistentul va aminti de ${appointment.treatment} la ${appointment.time}, în ${appointment.room}.`,
     );
 
   return appointment;
@@ -600,8 +601,8 @@ export async function createAppointment(input: AppointmentInput) {
         time: appointment.time,
         channel: "dashboard",
         status: "pending",
-        title: `Programare noua: ${appointment.patient}`,
-        detail: `Botul va aminti de ${appointment.treatment} la ${appointment.time}, în ${appointment.room}.`,
+        title: `Programare nouă: ${appointment.patient}`,
+        detail: `Asistentul va aminti de ${appointment.treatment} la ${appointment.time}, în ${appointment.room}.`,
       });
 
       return appointment;
@@ -776,7 +777,7 @@ export async function answerBotQuestion(
 
     if (normalized.includes("calendar") || normalized.includes("programari")) {
       return dashboardAppointments.length
-        ? `Azi ai ${dashboardAppointments.length} programari: ${dashboardAppointments
+        ? `Azi ai ${dashboardAppointments.length} programări: ${dashboardAppointments
             .map((item) => `${item.time} ${item.patient} (${item.treatment})`)
             .join("; ")}.`
         : "Calendarul de azi este liber.";
@@ -812,7 +813,7 @@ export async function answerBotQuestion(
   }
 
   if (normalized.includes("urgent") || normalized.includes("durere")) {
-    return "Pentru durere, inflamație sau dinte spart, scrie „urgență” în formular sau sună la 0724 123 123. Cererea intră prima în lista doctorului.";
+    return `Pentru durere, inflamație sau dinte spart, scrie „urgență” în formular sau sună la ${clinic.phone}. Cererea intră prima în lista doctorului.`;
   }
 
   if (normalized.includes("programare") || normalized.includes("vreau")) {
