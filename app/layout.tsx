@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Cata Stoma Timișoara",
-    template: "%s | Cata Stoma",
+    default: "DentalClinic Timișoara",
+    template: "%s | DentalClinic Timișoara",
   },
   description:
     "Cabinet stomatologic în Timișoara pentru consultații, igienizare, estetică dentară și tratamente explicate clar.",

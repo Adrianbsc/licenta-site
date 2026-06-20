@@ -1,9 +1,9 @@
 export const clinic = {
-  name: "Cata Stoma",
+  name: "DentalClinic Timișoara",
   city: "Timișoara",
   area: "Take Ionescu - Piața Badea Cârțan",
   phone: "0732743277",
-  email: "contact@catastoma.ro",
+  email: "contact@dentalclinic-timisoara.ro",
   address: "Str. Simion Bărnuțiu 18, Timișoara",
   hours: "Luni - Vineri, 09:00 - 19:00",
 };
@@ -180,24 +180,27 @@ export const appointmentRequests = [
     id: "REQ-1048",
     patient: "Mara Popescu",
     phone: "0732 445 801",
+    email: "mara.popescu@example.com",
     reason: "Durere la molar, sensibilitate la rece",
     preferredDate: "23 mai, dimineața",
     status: "Nouă",
-    urgency: "Ridicata",
+    urgency: "Ridicată",
   },
   {
     id: "REQ-1049",
     patient: "Tudor Matei",
     phone: "0741 220 119",
+    email: "tudor.matei@example.com",
     reason: "Consultație pentru aparat dentar",
     preferredDate: "24 mai, după 16:00",
     status: "De sunat",
-    urgency: "Normala",
+    urgency: "Normală",
   },
   {
     id: "REQ-1050",
     patient: "Ana Moraru",
     phone: "0728 771 335",
+    email: "ana.moraru@example.com",
     reason: "Igienizare și control",
     preferredDate: "25 mai",
     status: "Confirmare trimisă",
@@ -306,12 +309,12 @@ export const patients = [
 ];
 
 export const calendarWeek = [
-  { day: "Luni", date: "18", slots: ["09:30", "13:00"] },
-  { day: "Marti", date: "19", slots: ["11:00"] },
-  { day: "Miercuri", date: "20", slots: ["10:00", "15:30", "17:00"] },
-  { day: "Joi", date: "21", slots: ["12:30"] },
-  { day: "Vineri", date: "22", slots: ["09:00", "10:15", "12:00", "16:30"] },
-  { day: "Sâmbătă", date: "23", slots: ["10:00", "11:30"] },
+  { day: "Luni", date: "22", slots: ["09:30", "13:00"] },
+  { day: "Marți", date: "23", slots: ["11:00"] },
+  { day: "Miercuri", date: "24", slots: ["10:00", "15:30", "17:00"] },
+  { day: "Joi", date: "25", slots: ["12:30"] },
+  { day: "Vineri", date: "26", slots: ["09:00", "10:15", "12:00", "16:30"] },
+  { day: "Sâmbătă", date: "27", slots: ["10:00", "11:30"] },
 ];
 
 export const databaseTables = [
@@ -324,7 +327,7 @@ export const databaseTables = [
   {
     name: "appointment_requests",
     rows: appointmentRequests.length,
-    fields: ["id", "patient", "phone", "reason", "preferredDate", "status"],
+    fields: ["id", "patient", "phone", "email", "reason", "preferredDate", "status"],
     purpose: "Cererile venite din formularul public.",
   },
   {

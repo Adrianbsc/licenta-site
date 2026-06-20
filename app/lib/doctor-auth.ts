@@ -1,37 +1,57 @@
 import { cookies } from "next/headers";
+import {
+  authenticateStaffCredentials,
+  getStaffUserById,
+  type StaffPermission,
+  type StaffUser,
+} from "./clinic-db";
 
 export const doctorSessionCookie = "doctor_session";
 
-const sessionValue = "cata-stoma-doctor";
 const defaultUsername = "doctor";
 const defaultPassword = "doctor1";
+const legacySessionValue = "cata-stoma-doctor";
 
-export function validateDoctorCredentials(username: string, password: string) {
-  const configuredUsername = process.env.DOCTOR_USERNAME ?? defaultUsername;
-  const configuredPassword = process.env.DOCTOR_PASSWORD ?? defaultPassword;
-  const acceptedPasswords = new Set([configuredPassword]);
+export async function validateDoctorCredentials(username: string, password: string) {
+  return Boolean(await authenticateStaffCredentials(username, password));
+}
 
-  if (configuredPassword === defaultPassword) {
-    acceptedPasswords.add("doctor 1");
+export async function getAuthenticatedStaff() {
+  const cookieStore = await cookies();
+  const value = cookieStore.get(doctorSessionCookie)?.value;
+
+  if (!value) {
+    return null;
   }
 
-  return (
-    username.trim() === configuredUsername &&
-    acceptedPasswords.has(password.trim())
-  );
+  if (value.startsWith("staff:")) {
+    const user = await getStaffUserById(value.slice("staff:".length));
+    return user?.active ? user : null;
+  }
+
+  if (value === legacySessionValue) {
+    const configuredUsername = process.env.DOCTOR_USERNAME ?? defaultUsername;
+    const configuredPassword = process.env.DOCTOR_PASSWORD ?? defaultPassword;
+    return authenticateStaffCredentials(configuredUsername, configuredPassword);
+  }
+
+  return null;
 }
 
 export async function isDoctorAuthenticated() {
-  const cookieStore = await cookies();
-  return cookieStore.get(doctorSessionCookie)?.value === sessionValue;
+  return Boolean(await getAuthenticatedStaff());
 }
 
-export async function createDoctorSession() {
+export function hasPermission(user: StaffUser | null, permission: StaffPermission) {
+  return Boolean(user?.permissions.includes(permission));
+}
+
+export async function createDoctorSession(user: StaffUser) {
   const cookieStore = await cookies();
 
   cookieStore.set({
     name: doctorSessionCookie,
-    value: sessionValue,
+    value: `staff:${user.id}`,
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

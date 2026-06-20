@@ -9,6 +9,7 @@ type AppointmentRequestFormProps = {
 const initialForm = {
   patient: "",
   phone: "",
+  email: "",
   service: "Implanturi dentare",
   preferredDate: "",
   message: "",
@@ -93,6 +94,18 @@ export default function AppointmentRequestForm({
             }
             required
             value={form.phone}
+          />
+        </label>
+        <label className="grid gap-2 text-sm font-black">
+          Email pentru răspuns
+          <input
+            className={fieldClass}
+            onChange={(event) =>
+              setForm((current) => ({ ...current, email: event.target.value }))
+            }
+            placeholder="nume@email.ro"
+            type="email"
+            value={form.email}
           />
         </label>
         <label className="grid gap-2 text-sm font-black">

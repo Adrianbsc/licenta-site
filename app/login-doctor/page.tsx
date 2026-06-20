@@ -50,7 +50,7 @@ export default function DoctorLoginPage() {
             className="inline-flex rounded-full border border-white/70 bg-white/80 px-4 py-2 text-sm font-black text-[#176f65] shadow-sm backdrop-blur hover:-translate-y-0.5 hover:bg-white"
             href="/"
           >
-            Cata Stoma
+            DentalClinic Timișoara
           </Link>
           <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-[#248176]">
             Acces doctor

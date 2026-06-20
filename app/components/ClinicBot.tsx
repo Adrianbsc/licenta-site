@@ -28,7 +28,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
       role: "bot",
       text: isDoctor
         ? "Bună, doctore. Am agenda, cererile noi și observațiile pacienților la îndemână."
-        : `Bună, sunt asistentul de cabinet Cata Stoma. Te pot ajuta cu programul, serviciile și cererile de programare în ${clinic.city}.`,
+        : `Bună, sunt asistentul DentalClinic Timișoara. Te pot ajuta cu programul, serviciile și cererile de programare în ${clinic.city}.`,
     },
   ]);
 
@@ -106,7 +106,7 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
         type="button"
       >
         <span className="pulse-dot flex h-10 w-10 items-center justify-center rounded-full bg-[#2d8d7f] text-xs font-black text-white shadow-sm">
-          CS
+          DC
         </span>
         <span className="hidden sm:inline">Întreabă cabinetul</span>
         <span className="sm:hidden">Cabinet</span>
@@ -119,14 +119,14 @@ export default function ClinicBot({ mode = "patient" }: { mode?: BotMode }) {
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2d8d7f] text-xs font-black text-white shadow-sm">
-            CS
+            DC
           </span>
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#248176]">
               {isDoctor ? "Agenda internă" : "Asistent cabinet"}
             </p>
             <h2 className="mt-1 text-xl font-black text-[#17322e]">
-              {isDoctor ? "Rezumatul zilei" : "Cata Stoma răspunde"}
+              {isDoctor ? "Rezumatul zilei" : "DentalClinic Timișoara răspunde"}
             </h2>
           </div>
         </div>

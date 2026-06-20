@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import AppointmentRequestForm from "./components/AppointmentRequestForm";
 import ClinicBot from "./components/ClinicBot";
+import PatientUtilities from "./components/PatientUtilities";
 import ReviewsClient from "./components/ReviewsClient";
 import {
   caseStudies,
@@ -82,6 +83,9 @@ export default async function Home() {
             <a className="transition hover:text-white" href="#review-uri">
               Recenzii
             </a>
+            <a className="transition hover:text-white" href="#utilitati">
+              Utilități
+            </a>
             <a className="transition hover:text-white" href="#echipa">
               Echipa
             </a>
@@ -109,9 +113,9 @@ export default async function Home() {
               Stomatologie calmă, cu planuri explicate pe limba ta.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/82">
-              Cata Stoma este un cabinet din zona {clinic.area}, pentru oameni
-              care vor să știe ce se întâmplă, cât durează și ce merită făcut
-              acum. Fără promisiuni umflate, fără grabă inutilă.
+              DentalClinic Timișoara este un cabinet din zona {clinic.area},
+              pentru oameni care vor să știe ce se întâmplă, cât durează și ce
+              merită făcut acum. Fără promisiuni umflate, fără grabă inutilă.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -403,7 +407,7 @@ export default async function Home() {
                     </p>
                   </div>
                   <span className="w-fit rounded-full bg-white px-3 py-1 text-xs font-black text-[#647a75] ring-1 ring-[#d8eee9]">
-                    Cata Stoma
+                    DentalClinic Timișoara
                   </span>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-[#647a75]">
@@ -437,6 +441,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      <PatientUtilities />
 
       <section
         id="programare"

@@ -2,15 +2,18 @@ import {
   cancelAppointment,
   createAppointment,
   listAppointments,
+  updateAppointmentStatus,
   type AppointmentInput,
 } from "@/app/lib/clinic-db";
-import { isDoctorAuthenticated } from "@/app/lib/doctor-auth";
+import { getAuthenticatedStaff, hasPermission } from "@/app/lib/doctor-auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  if (!(await isDoctorAuthenticated())) {
+  const currentUser = await getAuthenticatedStaff();
+
+  if (!currentUser) {
     return Response.json({ error: "Neautorizat." }, { status: 401 });
   }
 
@@ -18,8 +21,17 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!(await isDoctorAuthenticated())) {
+  const currentUser = await getAuthenticatedStaff();
+
+  if (!currentUser) {
     return Response.json({ error: "Neautorizat." }, { status: 401 });
+  }
+
+  if (!hasPermission(currentUser, "manageAppointments")) {
+    return Response.json(
+      { error: "Nu ai permisiune pentru programări." },
+      { status: 403 },
+    );
   }
 
   const body = (await request.json()) as Partial<AppointmentInput>;
@@ -34,32 +46,46 @@ export async function POST(request: Request) {
   const appointment = await createAppointment({
     patient: body.patient,
     phone: body.phone,
+    email: body.email,
     date: body.date,
     time: body.time,
     duration: body.duration,
     treatment: body.treatment,
     room: body.room,
     status: body.status,
+    notes: body.notes,
   });
 
   return Response.json({ appointment }, { status: 201 });
 }
 
 export async function PATCH(request: Request) {
-  if (!(await isDoctorAuthenticated())) {
+  const currentUser = await getAuthenticatedStaff();
+
+  if (!currentUser) {
     return Response.json({ error: "Neautorizat." }, { status: 401 });
+  }
+
+  if (!hasPermission(currentUser, "manageAppointments")) {
+    return Response.json(
+      { error: "Nu ai permisiune pentru programări." },
+      { status: 403 },
+    );
   }
 
   const body = (await request.json()) as { id?: string; action?: string };
 
-  if (!body.id || body.action !== "cancel") {
+  if (!body.id || !["cancel", "restore"].includes(body.action ?? "")) {
     return Response.json(
-      { error: "Trimite id-ul programării și acțiunea cancel." },
+      { error: "Trimite id-ul programării și acțiunea cancel sau restore." },
       { status: 400 },
     );
   }
 
-  const appointment = await cancelAppointment(body.id);
+  const appointment =
+    body.action === "cancel"
+      ? await cancelAppointment(body.id)
+      : await updateAppointmentStatus(body.id, "Confirmată");
 
   if (!appointment) {
     return Response.json(
